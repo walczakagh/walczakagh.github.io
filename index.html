@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sebastian Walczak</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Sebastian Walczak, PhD researcher at AGH University of Krakow. Land subsidence, groundwater and satellite geodesy: GRACE, InSAR/EGMS, numerical hydrogeological models and machine learning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 1120px column; sticky section nav; research as figure/text pairs; lists as ruled rows. Signature: the InSAR vertical-velocity colour scale. */
+:root{
+  --bg:#f2f4f3; --surface:#ffffff; --fg:#14201f; --muted:#56656a; --line:#d6dddc;
+  --accent:#0c6470; --accent-soft:#dcebec;
+  --sink:#b4322a; --lift:#2459a6;
+  --ok:#2f7a45; --warn:#9a6a10;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --s-1:.8125rem; --s0:1rem; --s1:1.1875rem; --s2:1.5rem; --s3:2.25rem; --s4:clamp(2.6rem,6vw,4.4rem);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1716; --surface:#16211f; --fg:#e4ebe9; --muted:#97a6a6; --line:#2a3735;
+  --accent:#5fb9c3; --accent-soft:#1b3235; --sink:#e0675d; --lift:#6e9ce0; --ok:#6cbf85; --warn:#d8a647; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1716; --surface:#16211f; --fg:#e4ebe9; --muted:#97a6a6; --line:#2a3735;
+  --accent:#5fb9c3; --accent-soft:#1b3235; --sink:#e0675d; --lift:#6e9ce0; --ok:#6cbf85; --warn:#d8a647; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:4.5rem}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:var(--s0);line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:var(--accent);text-underline-offset:.18em;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.1;text-wrap:balance;margin:0}
+h2{font-size:var(--s3);letter-spacing:-.01em}
+h3{font-size:var(--s1);font-weight:500;font-family:var(--f-body);line-height:1.35}
+p{margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--f-mono);font-size:var(--s-1);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.prose{max-width:66ch;color:var(--fg)}
+.muted{color:var(--muted)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:1.5rem;padding-block:.7rem}
+.nav .brand{font-family:var(--f-display);font-weight:700;color:var(--fg);text-decoration:none;white-space:nowrap}
+.nav ul{list-style:none;margin:0;padding:0;display:flex;gap:1.1rem;overflow-x:auto;scrollbar-width:none;min-width:0}
+.nav ul::-webkit-scrollbar{display:none}
+.nav ul a{color:var(--muted);text-decoration:none;font-size:.9rem;white-space:nowrap}
+.nav ul a:hover{color:var(--fg)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:3rem;align-items:end;padding-block:4rem 2.5rem}
+.hero h1{font-size:var(--s4);letter-spacing:-.025em}
+.hero .lede{font-size:var(--s1);max-width:40ch;margin-top:1.1rem;color:var(--fg)}
+.hero .aff{margin-top:1.25rem;color:var(--muted);max-width:60ch}
+.portrait{border-radius:4px;aspect-ratio:694/900;object-fit:cover;width:100%;max-width:300px;justify-self:end}
+.links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.6rem}
+.links a{font-family:var(--f-mono);font-size:var(--s-1);padding:.4rem .7rem;border:1px solid var(--line);border-radius:999px;text-decoration:none;color:var(--fg);background:var(--surface)}
+.links a:hover{border-color:var(--accent);color:var(--accent)}
+
+/* velocity scale */
+.scale{padding-block:0 3rem}
+.scale-bar{height:14px;border-radius:2px;background:linear-gradient(90deg,var(--sink) 0%,#e8a33b 45%,#f1e3a6 62%,#c9dde0 80%,var(--lift) 100%)}
+.scale-ticks{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted);margin-top:.4rem;font-variant-numeric:tabular-nums}
+.scale-cap{display:flex;flex-wrap:wrap;gap:.25rem 2rem;justify-content:space-between;margin-top:.9rem;font-size:.92rem}
+.scale-cap b{font-weight:600}
+
+/* sections */
+section.block{border-top:1px solid var(--line)}
+section.block>.wrap{padding-block:4rem}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.5rem 2rem;margin-bottom:2.25rem}
+
+/* about facts */
+.about{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:3rem}
+.about .prose p+p{margin-top:1rem}
+dl.facts{margin:0;display:grid;gap:0}
+dl.facts div{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:1rem;padding:.7rem 0;border-bottom:1px solid var(--line)}
+dl.facts div:first-child{border-top:1px solid var(--line)}
+dl.facts dt{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted);padding-top:.15rem}
+dl.facts dd{margin:0}
+
+/* research */
+.themes{display:grid;gap:4rem}
+.theme{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:2.5rem;align-items:start}
+.theme:nth-child(even) .theme-fig{order:-1}
+.theme h3{font-family:var(--f-display);font-size:var(--s2);font-weight:700;margin:.4rem 0 .9rem}
+.theme p+p{margin-top:.8rem}
+.theme-fig{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:.75rem}
+.theme-fig img{border-radius:2px;background:#fff}
+.theme-fig figcaption{font-size:var(--s-1);color:var(--muted);margin-top:.6rem}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.nums{display:flex;flex-wrap:wrap;gap:1.25rem 2rem;margin-top:1.2rem}
+.nums div{display:grid}
+.nums b{font-family:var(--f-mono);font-weight:500;font-size:var(--s1);font-variant-numeric:tabular-nums}
+.nums span{font-size:var(--s-1);color:var(--muted);max-width:18ch}
+.tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1rem}
+.tags span{font-family:var(--f-mono);font-size:.75rem;padding:.15rem .5rem;border-radius:3px;background:var(--accent-soft);color:var(--fg)}
+
+/* publications */
+.pubgroup+.pubgroup{margin-top:2.5rem}
+.pubgroup>.label{margin-bottom:.6rem;display:block}
+ol.rows{list-style:none;margin:0;padding:0}
+ol.rows li{display:grid;grid-template-columns:9.5rem minmax(0,1fr);gap:1.25rem;padding:1rem 0;border-top:1px solid var(--line)}
+ol.rows li:last-child{border-bottom:1px solid var(--line)}
+.pub-title{font-weight:500}
+.pub-meta{color:var(--muted);font-size:.93rem;margin-top:.2rem}
+.pub-meta a{font-family:var(--f-mono);font-size:var(--s-1)}
+.me{font-weight:600;color:var(--fg)}
+.status{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;align-self:start;justify-self:start;padding:.2rem .5rem;border-radius:3px;border:1px solid currentColor;margin-top:.15rem;white-space:nowrap}
+.st-pub{color:var(--ok)} .st-rev{color:var(--warn)} .st-acc{color:var(--accent)} .st-prep{color:var(--muted)}
+.yr{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:.15rem}
+
+/* projects */
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:1.4rem;display:grid;gap:.5rem;align-content:start}
+.card .role{font-family:var(--f-mono);font-size:var(--s-1);color:var(--accent)}
+.card h3{font-weight:600}
+.card p{color:var(--muted);font-size:.95rem}
+.card .num{font-family:var(--f-mono);font-size:.78rem;color:var(--muted)}
+
+/* collaborations */
+.collab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 2rem}
+.collab div{padding:1rem 0;border-top:1px solid var(--line)}
+.collab b{display:block;font-weight:600}
+.collab span{color:var(--muted);font-size:.93rem}
+
+/* conferences */
+.conf-year{font-family:var(--f-display);font-size:var(--s2);margin:2rem 0 .5rem}
+.conf-year:first-of-type{margin-top:0}
+table.conf{width:100%;border-collapse:collapse;font-size:.95rem}
+table.conf th{text-align:left;font-family:var(--f-mono);font-weight:400;font-size:var(--s-1);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:.5rem .75rem .5rem 0;border-bottom:1px solid var(--line)}
+table.conf td{padding:.8rem .75rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top}
+table.conf td:first-child{width:30%}
+table.conf td:last-child{width:15%;white-space:nowrap;color:var(--muted);font-family:var(--f-mono);font-size:var(--s-1)}
+.place{display:block;color:var(--muted);font-size:.88rem}
+.award{color:var(--warn);font-family:var(--f-mono);font-size:.75rem;display:block;margin-top:.2rem}
+.tablebox{overflow-x:auto}
+
+/* geoawesome */
+.ga{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:3rem}
+.ga .prose p+p{margin-top:1rem}
+ol.articles{list-style:none;margin:0;padding:0}
+ol.articles li{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:1rem;padding:.75rem 0;border-top:1px solid var(--line)}
+ol.articles li:last-child{border-bottom:1px solid var(--line)}
+ol.articles a{color:var(--fg);text-decoration:none;font-weight:500}
+ol.articles a:hover{color:var(--accent);text-decoration:underline}
+
+/* field */
+.field{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.field img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:3px}
+.field img.tall{grid-row:span 2;aspect-ratio:auto;height:100%}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3rem}
+.copy{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;margin-top:1rem}
+.copy code{font-family:var(--f-mono);font-size:var(--s1);user-select:all}
+.copy button{font:inherit;font-size:var(--s-1);font-family:var(--f-mono);padding:.35rem .7rem;border-radius:4px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.copy button:hover{border-color:var(--accent)}
+ul.profiles{list-style:none;margin:0;padding:0}
+ul.profiles li{display:flex;justify-content:space-between;gap:1rem;padding:.7rem 0;border-top:1px solid var(--line)}
+ul.profiles li:last-child{border-bottom:1px solid var(--line)}
+ul.profiles span{font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted);overflow-wrap:anywhere;text-align:right}
+footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);font-family:var(--f-mono);border-top:1px solid var(--line)}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;gap:2rem;padding-block:2.5rem 2rem}
+  .portrait{justify-self:start;max-width:220px;order:-1}
+  .about,.theme,.ga,.contact{grid-template-columns:1fr;gap:1.75rem}
+  .theme:nth-child(even) .theme-fig{order:0}
+  .cards{grid-template-columns:1fr}
+  .collab{grid-template-columns:1fr 1fr}
+  .field{grid-template-columns:1fr 1fr}
+  section.block>.wrap{padding-block:3rem}
+}
+@media (max-width:540px){
+  .nav .brand{display:none}
+  ol.rows li{grid-template-columns:1fr;gap:.4rem}
+  ol.articles li{grid-template-columns:1fr;gap:.15rem}
+  dl.facts div{grid-template-columns:1fr;gap:.15rem}
+  .collab{grid-template-columns:1fr}
+  table.conf td:first-child{width:auto}
+}
+</style>
+
+</head>
+<body>
+<nav class="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="brand" href="#top">S. Walczak</a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#publications">Publications</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#collaborations">Collaborations</a></li>
+      <li><a href="#conferences">Conferences</a></li>
+      <li><a href="#geoawesome">Geoawesome</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <p class="label">PhD researcher · AGH University of Krakow</p>
+      <h1>Sebastian Walczak</h1>
+      <p class="lede">I study why the ground sinks: groundwater pumping in river deltas and water rebound in old mining areas, measured from orbit and reproduced in numerical models.</p>
+      <p class="aff">Faculty of Geo-Data Science, Geodesy and Environmental Engineering · Land Subsidence and Hazard Mitigation Research Group</p>
+      <div class="links">
+        <a href="https://orcid.org/0009-0001-1934-2778">ORCID</a>
+        <a href="https://scholar.google.com/citations?user=lSxsrDAAAAAJ&amp;hl=en">Google Scholar</a>
+        <a href="https://www.researchgate.net/profile/Sebastian-Walczak-2">ResearchGate</a>
+        <a href="https://badap.agh.edu.pl/autor/walczak-sebastian-065380">BaDAP AGH</a>
+        <a href="https://geoawesome.com/author/sebastianwalczak/">Geoawesome</a>
+        <a href="https://github.com/walczakagh">GitHub</a>
+      </div>
+    </div>
+    <img class="portrait" src="assets/img/portrait.jpg" alt="Sebastian Walczak" width="694" height="900">
+  </div>
+</header>
+
+<div class="scale" aria-label="Scale of the problem">
+  <div class="wrap">
+    <p class="label" style="margin-bottom:.6rem">Vertical land motion, mm/yr</p>
+    <div class="scale-bar" role="img" aria-label="Colour scale from subsidence in red to uplift in blue"></div>
+    <div class="scale-ticks"><span>−150</span><span>−100</span><span>−50</span><span>−10</span><span>0</span><span>+10</span></div>
+    <div class="scale-cap">
+      <span><b>Delta subsidence:</b> up to ~150 mm/yr</span>
+      <span><b>Global sea-level rise:</b> ~3–10 mm/yr</span>
+      <span><b>Post-mining rebound:</b> regional uplift</span>
+    </div>
+  </div>
+</div>
+
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head"><h2>About</h2></div>
+    <div class="about">
+      <div class="prose">
+        <p>I am a third-year PhD student at the AGH Doctoral School, working on monitoring, modelling and mitigation of drainage-induced compaction of rock mass. My main study area is the Vietnamese Mekong Delta, where groundwater extraction drives land subsidence that outpaces sea-level rise many times over. I also work on post-mining areas in Poland, where mine flooding causes uplift and sinkholes.</p>
+        <p>The work combines three sources of evidence. Satellite geodesy (GRACE/GRACE-FO gravimetry and InSAR from the European Ground Motion Service) shows what is happening. Numerical hydrogeological models (NATSUB3D, iMOD) explain why. Machine learning connects the two by downscaling coarse GRACE groundwater signals to scales where subsidence and water management decisions happen.</p>
+        <p>Alongside research I write for <a href="https://geoawesome.com/author/sebastianwalczak/">Geoawesome</a>, a geospatial media publication, where I produce articles and interactive maps on Earth observation and GIS.</p>
+      </div>
+      <dl class="facts">
+        <div><dt>Thesis</dt><dd>Monitoring, modelling and mitigation of drainage-induced compaction of rock mass</dd></div>
+        <div><dt>Supervisors</dt><dd>Prof. Tomasz Stoch (supervisor)<br>Dr Artur Guzy (auxiliary supervisor)</dd></div>
+        <div><dt>Discipline</dt><dd>Civil engineering, geodesy and transport</dd></div>
+        <div><dt>Study areas</dt><dd>Mekong Delta, Vietnam · Siersza and other post-mining areas, Poland</dd></div>
+        <div><dt>Methods</dt><dd>GRACE/GRACE-FO, InSAR/EGMS, airborne laser scanning, NATSUB3D, iMOD, Random Forest, PINNs, Python</dd></div>
+        <div><dt>Defence</dt><dd>Planned for September 2028</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="research">
+  <div class="wrap">
+    <div class="sec-head"><h2>Research</h2><p class="muted">Four lines of work, from model to satellite.</p></div>
+    <div class="themes">
+
+      <article class="theme">
+        <div>
+          <p class="label">Numerical modelling · Mekong Delta</p>
+          <h3>Coupling shallow and deep compaction</h3>
+          <p>Delta subsidence has two main components: natural compaction of young Holocene sediments and drainage-induced compaction from groundwater pumping. They are usually modelled separately, which misestimates both the components and the total.</p>
+          <p>During a three-month internship at the University of Padua I developed a coupling between NATSUB3D (shallow, sedimentation-driven compaction) and iMOD (groundwater flow and deep aquifer compaction), with an exchange of hydrological responses between the two models. On a theoretical delta setup, deep pumping drives extra downward flow that forces shallow compaction.</p>
+          <div class="nums">
+            <div><b>0.180 → 0.251 m</b><span>max. total compaction, independent vs coupled</span></div>
+            <div><b>0.017 → 0.092 m</b><span>max. shallow compaction</span></div>
+          </div>
+          <div class="tags"><span>NATSUB3D</span><span>iMOD</span><span>Engineering Geology, in revision</span></div>
+        </div>
+        <figure class="theme-fig">
+          <img src="assets/img/coupled-model.jpg" alt="Block diagrams comparing a delta under natural equilibrium and under anthropogenic pressure, with shallow and deep domains" width="1600" height="800" loading="lazy">
+          <figcaption>Conceptual model: natural equilibrium vs anthropogenic pressure, shallow and deep domains.</figcaption>
+        </figure>
+      </article>
+
+      <article class="theme">
+        <div>
+          <p class="label">Satellite gravimetry · machine learning</p>
+          <h3>Downscaling GRACE groundwater storage</h3>
+          <p>GRACE measures changes in total water storage worldwide, but its footprint spans hundreds of kilometres. That is too coarse for the scale where groundwater stress causes land subsidence.</p>
+          <p>The pipeline subtracts soil moisture, snow, canopy water (ERA5-Land, GLDAS) and an independent surface water model from GRACE TWS, then trains a Random Forest per month on a 96-variable predictor stack (terrain, soil, land cover, surface water occurrence, vegetation, climate). Predictions at 0.01° are residual-corrected so they reproduce the original GRACE signal exactly, and are validated against a calibrated groundwater model of the delta, wells and the G3P product.</p>
+          <div class="nums">
+            <div><b>~1 km</b><span>target resolution (0.01°)</span></div>
+            <div><b>96</b><span>predictor variables from 12 datasets</span></div>
+            <div><b>2004–2009</b><span>anomaly baseline</span></div>
+          </div>
+          <div class="tags"><span>GRACE/GRACE-FO</span><span>Random Forest</span><span>PINN (next)</span><span>Python</span></div>
+        </div>
+        <figure class="theme-fig">
+          <div class="pair">
+            <img src="assets/img/grace-coarse.jpg" alt="Coarse GRACE groundwater storage over the Mekong Delta, a few large pixels" width="1000" height="986" loading="lazy">
+            <img src="assets/img/grace-downscaled.jpg" alt="Downscaled groundwater storage over the Mekong Delta at about 1 km" width="1000" height="998" loading="lazy">
+          </div>
+          <figcaption>Groundwater storage anomaly over the Mekong Delta: native GRACE grid (left) and Random Forest downscaling (right).</figcaption>
+        </figure>
+      </article>
+
+      <article class="theme">
+        <div>
+          <p class="label">InSAR · open-source tooling</p>
+          <h3>MoWaTracK: hydrologically driven ground motion in Poland</h3>
+          <p>MoWaTracK is a Python tool that turns EGMS Level 2b (calibrated) and Level 3 (ortho) data into vertical land motion for a chosen area. It estimates velocities with linear regression, Gaussian weighting or LOESS, decomposes ascending and descending line-of-sight into vertical and horizontal components, and classifies each point's trajectory.</p>
+          <p>Tested on three Polish sites: Siersza Mine, Greater Poland and the Vistula Delta. A key finding: annual-window fitting captures nonlinear deformation that a single whole-period velocity hides.</p>
+          <div class="tags"><span>EGMS</span><span>LOS decomposition</span><span>LOESS</span><span>manuscript submitted</span></div>
+        </div>
+        <figure class="theme-fig">
+          <img src="assets/img/mowatrack.jpg" alt="Maps of vertical displacement classes for Siersza Mine, Greater Poland and the Vistula Delta from EGMS ortho and calibrated data" width="1206" height="1600" loading="lazy">
+          <figcaption>Displacement classes from EGMS Ortho and Calibrated products for the three test areas.</figcaption>
+        </figure>
+      </article>
+
+      <article class="theme">
+        <div>
+          <p class="label">Post-mining hazards · Siersza</p>
+          <h3>Detecting sinkholes with InSAR and airborne laser scanning</h3>
+          <p>In the flooded, abandoned Siersza coal mine, InSAR captures regional uplift and residual subsidence after closure, while ALS reveals point-like sinkhole signals that radar misses. I compared raster differencing, low-pass filtering and M3C2 on ALS data, using the Polish Geological Institute sinkhole database as ground truth and 163 levelling benchmarks (2019–2022) for validation.</p>
+          <div class="nums">
+            <div><b>~60%</b><span>of known sinkholes detected by ALS (RD/LPF)</span></div>
+            <div><b>0.90–0.97</b><span>Pearson r, InSAR vs levelling</span></div>
+            <div><b>200–300 m</b><span>sinkhole influence zone</span></div>
+          </div>
+          <div class="tags"><span>EGMS</span><span>ALS / LiDAR</span><span>RSASE 2025</span></div>
+        </div>
+        <figure class="theme-fig">
+          <img src="assets/img/siersza-sinkholes.jpg" alt="EGMS vertical velocity maps of the Siersza area and a displacement time series with trend" width="1600" height="1521" loading="lazy">
+          <figcaption>EGMS Ortho (A) and Calibrated (B) vertical velocities at Siersza, with a selected time series (C).</figcaption>
+        </figure>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section class="block" id="publications">
+  <div class="wrap">
+    <div class="sec-head"><h2>Publications</h2><p class="muted">Full record on <a href="https://orcid.org/0009-0001-1934-2778">ORCID</a> and <a href="https://badap.agh.edu.pl/autor/walczak-sebastian-065380">BaDAP</a>.</p></div>
+
+    <div class="pubgroup">
+      <span class="label">Journal articles</span>
+      <ol class="rows">
+        <li>
+          <span class="status st-pub">Published 2025</span>
+          <div>
+            <p class="pub-title">Detecting sinkholes and land surface movement in post-mining regions using multi-source remote sensing data</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Witkowski, W. T., Stoch, T., Guzy, A. <i>Remote Sensing Applications: Society and Environment</i>, 38, 101560. <a href="https://doi.org/10.1016/j.rsase.2025.101560">doi:10.1016/j.rsase.2025.101560</a></p>
+          </div>
+        </li>
+        <li>
+          <span class="status st-pub">Published 2025</span>
+          <div>
+            <p class="pub-title">Challenges in estimating long-term InSAR-derived land subsidence in the Mekong Delta, Vietnam</p>
+            <p class="pub-meta">Guzy, A., Witkowski, W. T., Łucka, M., <span class="me">Walczak, S.</span>, Teatini, P., Minderhoud, P. S. J. <i>Inżynieria Mineralna</i>, 1(2), 761–772. <a href="https://doi.org/10.29227/IM-2025-02-63">doi:10.29227/IM-2025-02-63</a></p>
+          </div>
+        </li>
+        <li>
+          <span class="status st-rev">In revision</span>
+          <div>
+            <p class="pub-title">3-D modelling framework for deltaic subsidence coupling shallow and deep compaction processes</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Baldan, S., Teatini, P., Minderhoud, P. S. J., Guzy, A. <i>Engineering Geology</i></p>
+          </div>
+        </li>
+        <li>
+          <span class="status st-rev">Submitted</span>
+          <div>
+            <p class="pub-title">Hydrologically-driven ground surface displacement in Poland using EGMS with MoWaTracK: a Python-based analytical tool</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A., Minderhoud, P. S. J., Witkowski, W. T.</p>
+          </div>
+        </li>
+        <li>
+          <span class="status st-prep">In preparation</span>
+          <div>
+            <p class="pub-title">Modelling of groundwater changes and land surface displacement using GRACE data and machine learning: a literature review</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="pubgroup">
+      <span class="label">Conference papers and abstracts</span>
+      <ol class="rows">
+        <li>
+          <span class="status st-acc">Accepted 2026</span>
+          <div>
+            <p class="pub-title">Estimating aquifer depletion and recovery in small-scale anthropogenically stressed areas applying GRACE</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A. IGARSS 2026, Washington, D.C., USA</p>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2026</span>
+          <div>
+            <p class="pub-title">Drivers and spatio-temporal characteristics of land movements associated with sinkhole formation in flooded, abandoned mines</p>
+            <p class="pub-meta">Guzy, A., Łucka, M., <span class="me">Walczak, S.</span>, Zhang, X., Witkowski, W. T. EGU General Assembly 2026. <a href="https://doi.org/10.5194/egusphere-egu26-14118">doi:10.5194/egusphere-egu26-14118</a></p>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2026</span>
+          <div>
+            <p class="pub-title">Vertical and horizontal land motion in the Mekong Delta: a long-term record from dual-geometry Sentinel-1 InSAR</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A., Witkowski, W. T., Łucka, M., Teatini, P., Baldan, S., Seeger, K., Minderhoud, P. S. J. EGU General Assembly 2026</p>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2025</span>
+          <div>
+            <p class="pub-title">Detecting sinkholes and land surface movements in post-mining regions utilizing multi-source remote sensing data</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Witkowski, W. T., Stoch, T., Guzy, A. Living Planet Symposium 2025, Vienna. European Space Agency.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="projects">
+  <div class="wrap">
+    <div class="sec-head"><h2>Projects and funding</h2></div>
+    <div class="cards">
+      <div class="card">
+        <span class="role">Principal investigator</span>
+        <h3>Using GRACE data to analyse vertical land displacement driven by hydrological change</h3>
+        <p>AGH mini-grant, 7th edition, Excellence Initiative – Research University (IDUB). Funds GRACE downscaling work and the planned research visit to GFZ Potsdam.</p>
+      </div>
+      <div class="card">
+        <span class="role">Team member</span>
+        <h3>3MAP: Monitoring, Modelling and Mitigation of Land Subsidence in Delta Areas</h3>
+        <p>National Science Centre, Poland (OPUS). PI: Dr Artur Guzy. 2024–2027.</p>
+        <span class="num">2023/49/B/ST10/01803</span>
+      </div>
+      <div class="card">
+        <span class="role">Team member</span>
+        <h3>Novel algorithm of sinkhole precursors detection</h3>
+        <p>National Science Centre, Poland (SONATA). PI: Dr Wojciech T. Witkowski. 2022–2025.</p>
+        <span class="num">2021/43/D/ST10/02048</span>
+      </div>
+      <div class="card">
+        <span class="role">Research internship</span>
+        <h3>University of Padua, Italy</h3>
+        <p>May–July 2025, hosted by Prof. Pietro Teatini. Coupling of NATSUB3D and iMOD. Funded by IDUB.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="collaborations">
+  <div class="wrap">
+    <div class="sec-head"><h2>Collaborations</h2></div>
+    <div class="collab">
+      <div><b>University of Padua</b><span>Italy · Prof. Pietro Teatini, Dr Selena Baldan</span></div>
+      <div><b>Wageningen University &amp; Research and Deltares</b><span>Netherlands · Prof. Philip S. J. Minderhoud</span></div>
+      <div><b>Ho Chi Minh City University of Technology</b><span>Vietnam · Dr Ha Quang Khai, Dr Phu Le Vo</span></div>
+      <div><b>GFZ Helmholtz Centre for Geosciences</b><span>Germany · Prof. Andreas Güntner · GRACE and G3P groundwater</span></div>
+      <div><b>AGH University of Krakow</b><span>Land Subsidence and Hazard Mitigation Research Group · Dr Artur Guzy, Dr Wojciech T. Witkowski, Dr Magdalena Łucka</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="conferences">
+  <div class="wrap">
+    <div class="sec-head"><h2>Conferences</h2><p class="muted">Twelve meetings, 2024–2026.</p></div>
+
+    <h3 class="conf-year">2026</h3>
+    <div class="tablebox">
+      <table class="conf">
+        <thead><tr><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
+        <tbody>
+          <tr><td>IAEG 2026<span class="place">Delft, Netherlands</span></td><td>Results of the coupled model for the Mekong Delta</td><td>Poster</td></tr>
+          <tr><td>IAH 2026 Congress<span class="place">Budapest, Hungary</span></td><td>GRACE downscaling results</td><td>Poster</td></tr>
+          <tr><td>IGARSS 2026<span class="place">Washington, D.C., USA</span></td><td>Estimating aquifer depletion and recovery in small-scale anthropogenically stressed areas applying GRACE</td><td>Paper</td></tr>
+          <tr><td>EGU General Assembly 2026<span class="place">Vienna, Austria</span></td><td>Mekong Delta dual-geometry InSAR; sinkhole formation in flooded mines</td><td>2 posters, co-author</td></tr>
+          <tr><td>First International Land Subsidence Symposium<span class="place">Quezon City, Philippines</span></td><td>Coupled multi-depth modelling of land subsidence in delta systems; InSAR-derived long-term land movement in the Mekong Delta</td><td>2 posters</td></tr>
+          <tr><td>Taiwan International Symposium on Land Subsidence<span class="place">Taipei, Taiwan</span></td><td>Integrating shallow and intermediate compaction processes: a coupled framework for deltaic land subsidence</td><td>Poster</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="conf-year">2024–2025</h3>
+    <div class="tablebox">
+      <table class="conf">
+        <thead><tr><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
+        <tbody>
+          <tr><td>IPGC 2025<span class="place">Zaragoza, Spain</span></td><td>Integrated remote sensing monitoring of land surface instability in post-mining regions<span class="award">Poster award</span></td><td>Poster</td></tr>
+          <tr><td>Living Planet Symposium 2025<span class="place">Vienna, Austria</span></td><td>Detecting sinkholes and land surface movements in post-mining regions</td><td>Poster</td></tr>
+          <tr><td>Viet-Pol 2025<span class="place">Hanoi, Vietnam</span></td><td>Challenges in estimating long-term InSAR-derived land subsidence in the Mekong Delta</td><td>Paper, co-author</td></tr>
+          <tr><td>XVIII Dni Miernictwa<span class="place">Ustroń, Poland</span></td><td>Detection of sinkholes and surface movements using remote sensing data</td><td>Talk</td></tr>
+          <tr><td>Dokonania Naukowe Doktorantów<span class="place">Kraków, Poland (online)</span></td><td>Impact of digital elevation model accuracy on InSAR-retrieved land displacement<span class="award">Poster award</span></td><td>Poster</td></tr>
+          <tr><td>AGU Annual Meeting<span class="place">Washington, D.C., USA</span></td><td>3MAP: monitoring, modelling and mitigation of land subsidence in delta areas</td><td>Poster, co-author</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="geoawesome">
+  <div class="wrap">
+    <div class="sec-head"><h2>Geoawesome</h2><p class="muted"><a href="https://geoawesome.com/author/sebastianwalczak/">All articles</a></p></div>
+    <div class="ga">
+      <div class="prose">
+        <p>I write for Geoawesome, a media publication about geospatial technology, Earth observation and GIS. Besides articles I build the interactive pieces behind them: Plotly maps of Facebook friendship ties across European regions, a Leaflet map of 318 GIS and remote sensing master's programmes, and charts for industry reports.</p>
+        <p>I also run the monthly <i>Tech for Earth</i> roundup of Earth observation news.</p>
+      </div>
+      <ol class="articles">
+        <li><span class="yr">24 Oct 2026</span><a href="https://geoawesome.com/digitising-historical-maps-testing-ai-assisted-contour-tracing-in-qgis/">Digitising Historical Maps: Testing AI-Assisted Contour Tracing in QGIS</a></li>
+        <li><span class="yr">6 Oct 2026</span><a href="https://geoawesome.com/best-offline-map-apps-for-2026-what-still-works-without-internet/">Best Offline Map Apps for 2026: What Still Works Without Internet</a></li>
+        <li><span class="yr">29 Sep 2026</span><a href="https://geoawesome.com/tech-for-earth-methane-penguins-and-a-volcano-nobody-was-watching/">Tech for Earth: Methane, Penguins, and a Volcano Nobody Was Watching</a></li>
+        <li><span class="yr">6 Sep 2026</span><a href="https://geoawesome.com/a-new-world-map-the-un-votes-to-show-africas-true-size/">A New World Map: The UN Votes to Show Africa's True Size</a></li>
+        <li><span class="yr">30 Aug 2026</span><a href="https://geoawesome.com/tech-for-earth-the-machine-builds-its-own-model-of-the-planet/">Tech for Earth: The Machine Builds Its Own Model of the Planet</a></li>
+        <li><span class="yr">9 Jul 2026</span><a href="https://geoawesome.com/the-2026-eo-industry-report-launches-live-and-youre-invited/">The 2026 EO Industry Report Launches Live, and You're Invited</a></li>
+        <li><span class="yr">5 Jul 2026</span><a href="https://geoawesome.com/what-facebook-friendships-reveal-about-europes-hidden-borders/">What Facebook Friendships Reveal About Europe's Hidden Borders</a></li>
+        <li><span class="yr">1 Jul 2026</span><a href="https://geoawesome.com/tech-for-earth-explaining-the-planet-on-the-ground-and-in-orbit/">Tech for Earth: Explaining the Planet, On the Ground and in Orbit</a></li>
+        <li><span class="yr">19 Jun 2026</span><a href="https://geoawesome.com/before-protection-there-is-mapping-childrens-climate-risk-report-2026/">Before Protection There is Mapping: Children's Climate Risk Report 2026</a></li>
+        <li><span class="yr">8 Jun 2026</span><a href="https://geoawesome.com/where-to-study-masters-in-gis-geoinformatics-remote-sensing-2026-edition/">Where to Study Master's in GIS, Geoinformatics &amp; Remote Sensing – 2026 Edition</a></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="field">
+  <div class="wrap">
+    <div class="sec-head"><h2>In the field</h2><p class="muted">Field surveys and excursions in Vietnam, Taiwan and the Philippines, 2025–2026.</p></div>
+    <div class="field">
+      <img class="tall" src="assets/img/field-5.jpg" alt="Footpath through tropical forest" width="1200" height="1600" loading="lazy">
+      <img src="assets/img/field-1.jpg" alt="Aerial view of ponds and fields" width="1600" height="900" loading="lazy">
+      <img src="assets/img/field-3.jpg" alt="River with remains of wooden posts" width="1600" height="1200" loading="lazy">
+      <img src="assets/img/field-4.jpg" alt="Cracked paving at the foot of a brick building" width="1600" height="1200" loading="lazy">
+      <img src="assets/img/field-2.jpg" alt="Aerial view of a flooded coastal road" width="1600" height="900" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="sec-head"><h2>Contact</h2></div>
+    <div class="contact">
+      <div class="prose">
+        <p>Open to collaboration on land subsidence, GRACE groundwater products and InSAR analysis.</p>
+        <div class="copy">
+          <code id="email">walczak@agh.edu.pl</code>
+          <button type="button" id="copy-email">Copy email</button>
+        </div>
+        <p class="muted" style="margin-top:1rem">AGH University of Krakow, Faculty of Geo-Data Science, Geodesy and Environmental Engineering, Kraków, Poland</p>
+      </div>
+      <ul class="profiles">
+        <li><a href="https://orcid.org/0009-0001-1934-2778">ORCID</a><span>0009-0001-1934-2778</span></li>
+        <li><a href="https://scholar.google.com/citations?user=lSxsrDAAAAAJ&amp;hl=en">Google Scholar</a><span>lSxsrDAAAAAJ</span></li>
+        <li><a href="https://www.researchgate.net/profile/Sebastian-Walczak-2">ResearchGate</a><span>Sebastian-Walczak-2</span></li>
+        <li><a href="https://badap.agh.edu.pl/autor/walczak-sebastian-065380">BaDAP AGH</a><span>065380</span></li>
+        <li><a href="https://geoawesome.com/author/sebastianwalczak/">Geoawesome</a><span>sebastianwalczak</span></li>
+        <li><a href="https://github.com/walczakagh">GitHub</a><span>walczakagh</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Sebastian Walczak · Last updated October 2026</div>
+</footer>
+
+<script>
+document.getElementById('copy-email').addEventListener('click', function () {
+  var btn = this, text = document.getElementById('email').textContent;
+  function done(){ btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = 'Copy email'; }, 1800); }
+  function fallback(){ var r = document.createRange(); r.selectNodeContents(document.getElementById('email')); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected, press Ctrl+C'; }
+  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+});
+</script>
+
+</body>
+</html>
