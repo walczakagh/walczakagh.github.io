@@ -137,8 +137,9 @@ ol.rows li:last-child{border-bottom:1px solid var(--line)}
 table.conf{width:100%;border-collapse:collapse;font-size:.95rem}
 table.conf th{text-align:left;font-family:var(--f-mono);font-weight:400;font-size:var(--s-1);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:.5rem .75rem .5rem 0;border-bottom:1px solid var(--line)}
 table.conf td{padding:.8rem .75rem .8rem 0;border-bottom:1px solid var(--line);vertical-align:top}
-table.conf td:first-child{width:30%}
-table.conf td:last-child{width:15%;white-space:nowrap;color:var(--muted);font-family:var(--f-mono);font-size:var(--s-1)}
+table.conf td:nth-child(2){width:28%}
+table.conf td.d{width:9.5rem;white-space:nowrap;font-family:var(--f-mono);font-size:var(--s-1);color:var(--muted);font-variant-numeric:tabular-nums}
+table.conf td:last-child{width:11rem;color:var(--muted);font-family:var(--f-mono);font-size:var(--s-1)}
 .place{display:block;color:var(--muted);font-size:.88rem}
 .award{color:var(--warn);font-family:var(--f-mono);font-size:.75rem;display:block;margin-top:.2rem}
 .tablebox{overflow-x:auto}
@@ -185,7 +186,7 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
   ol.articles li{grid-template-columns:1fr;gap:.15rem}
   dl.facts div{grid-template-columns:1fr;gap:.15rem}
   .collab{grid-template-columns:1fr}
-  table.conf td:first-child{width:auto}
+  table.conf td:nth-child(2){width:auto}
 }
 </style>
 
@@ -312,7 +313,7 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
           <h3>MoWaTracK: hydrologically driven ground motion in Poland</h3>
           <p>MoWaTracK is a Python tool that turns EGMS Level 2b (calibrated) and Level 3 (ortho) data into vertical land motion for a chosen area. It estimates velocities with linear regression, Gaussian weighting or LOESS, decomposes ascending and descending line-of-sight into vertical and horizontal components, and classifies each point's trajectory.</p>
           <p>Tested on three Polish sites: Siersza Mine, Greater Poland and the Vistula Delta. A key finding: annual-window fitting captures nonlinear deformation that a single whole-period velocity hides.</p>
-          <div class="tags"><span>EGMS</span><span>LOS decomposition</span><span>LOESS</span><span>manuscript submitted</span></div>
+          <div class="tags"><span>EGMS</span><span>LOS decomposition</span><span>LOESS</span><span>RSASE, submitted</span></div>
         </div>
         <figure class="theme-fig">
           <img src="assets/img/mowatrack.jpg" alt="Maps of vertical displacement classes for Siersza Mine, Greater Poland and the Vistula Delta from EGMS ortho and calibrated data" width="1206" height="1600" loading="lazy">
@@ -373,8 +374,8 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
         <li>
           <span class="status st-rev">Submitted</span>
           <div>
-            <p class="pub-title">Hydrologically-driven ground surface displacement in Poland using EGMS with MoWaTracK: a Python-based analytical tool</p>
-            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A., Minderhoud, P. S. J., Witkowski, W. T.</p>
+            <p class="pub-title">Hydrologically driven vertical land motion from EGMS using MoWaTracK: a Python-based analytical workflow</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A., Minderhoud, P. S. J., Witkowski, W. T. <i>Remote Sensing Applications: Society and Environment</i></p>
           </div>
         </li>
         <li>
@@ -390,6 +391,20 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
     <div class="pubgroup">
       <span class="label">Conference papers and abstracts</span>
       <ol class="rows">
+        <li>
+          <span class="yr">2026</span>
+          <div>
+            <p class="pub-title">Downscaling GRACE data for improved monitoring of groundwater-induced land subsidence in delta regions</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span> GFZ Doctoral Days 2026, Potsdam. <a href="https://events.hifis.net/event/4485/book-of-abstracts.pdf">Book of abstracts</a></p>
+          </div>
+        </li>
+        <li>
+          <span class="yr">2026</span>
+          <div>
+            <p class="pub-title">Downscaling GRACE data for physically consistent monitoring of groundwater storage changes and associated land subsidence</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A. IAH 2026 World Groundwater Congress, Budapest</p>
+          </div>
+        </li>
         <li>
           <span class="status st-acc">Accepted 2026</span>
           <div>
@@ -418,6 +433,13 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
             <p class="pub-meta"><span class="me">Walczak, S.</span>, Witkowski, W. T., Stoch, T., Guzy, A. Living Planet Symposium 2025, Vienna. European Space Agency.</p>
           </div>
         </li>
+        <li>
+          <span class="yr">2025</span>
+          <div>
+            <p class="pub-title">Impact of digital elevation model accuracy on InSAR-retrieved land displacement</p>
+            <p class="pub-meta"><span class="me">Walczak, S.</span>, Guzy, A., Witkowski, W. T., Stoch, T. Dokonania Naukowe Doktorantów XIII, online</p>
+          </div>
+        </li>
       </ol>
     </div>
   </div>
@@ -430,7 +452,7 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
       <div class="card">
         <span class="role">Principal investigator</span>
         <h3>Using GRACE data to analyse vertical land displacement driven by hydrological change</h3>
-        <p>AGH mini-grant, 7th edition, Excellence Initiative – Research University (IDUB). Funds GRACE downscaling work and the planned research visit to GFZ Potsdam.</p>
+        <p>AGH mini-grant, Excellence Initiative – Research University (IDUB, action D4, 7th edition). Funds the GRACE downscaling prototype, the IAH 2026 poster and collaboration with GFZ Potsdam. Runs to November 2026.</p>
       </div>
       <div class="card">
         <span class="role">Team member</span>
@@ -441,13 +463,23 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
       <div class="card">
         <span class="role">Team member</span>
         <h3>Novel algorithm of sinkhole precursors detection</h3>
-        <p>National Science Centre, Poland (SONATA). PI: Dr Wojciech T. Witkowski. 2022–2025.</p>
+        <p>National Science Centre, Poland (SONATA). PI: Dr Wojciech T. Witkowski. 2022–2026.</p>
         <span class="num">2021/43/D/ST10/02048</span>
       </div>
       <div class="card">
         <span class="role">Research internship</span>
         <h3>University of Padua, Italy</h3>
-        <p>May–July 2025, hosted by Prof. Pietro Teatini. Coupling of NATSUB3D and iMOD. Funded by IDUB.</p>
+        <p>5 May – 31 July 2025, hosted by Prof. Pietro Teatini. Coupling of the iMOD and NATSUB3D hydrogeological models. Funded by IDUB (action D6, long-term internships).</p>
+      </div>
+      <div class="card">
+        <span class="role">Field survey</span>
+        <h3>Mekong Delta, Vietnam</h3>
+        <p>2025. Field survey on the effects of drainage-induced compaction, water management and observed subsidence, including Ca Mau. Scientific discussion at Ho Chi Minh City University of Technology.</p>
+      </div>
+      <div class="card">
+        <span class="role">Training</span>
+        <h3>ESA 2026 InSAR Training Course</h3>
+        <p>June 2026, at the FRINGE 2026 conference. Selected through open competition. Run by TU Delft, the British Geological Survey and the Polish Geological Institute.</p>
       </div>
     </div>
   </div>
@@ -468,34 +500,44 @@ footer .wrap{padding-block:2rem 3rem;color:var(--muted);font-size:var(--s-1);fon
 
 <section class="block" id="conferences">
   <div class="wrap">
-    <div class="sec-head"><h2>Conferences</h2><p class="muted">Twelve meetings, 2024–2026.</p></div>
+    <div class="sec-head"><h2>Conferences</h2><p class="muted">Posters, talks and papers, 2024–2026.</p></div>
 
     <h3 class="conf-year">2026</h3>
     <div class="tablebox">
       <table class="conf">
-        <thead><tr><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
+        <thead><tr><th>Dates</th><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
         <tbody>
-          <tr><td>IAEG 2026<span class="place">Delft, Netherlands</span></td><td>Results of the coupled model for the Mekong Delta</td><td>Poster</td></tr>
-          <tr><td>IAH 2026 Congress<span class="place">Budapest, Hungary</span></td><td>GRACE downscaling results</td><td>Poster</td></tr>
-          <tr><td>IGARSS 2026<span class="place">Washington, D.C., USA</span></td><td>Estimating aquifer depletion and recovery in small-scale anthropogenically stressed areas applying GRACE</td><td>Paper</td></tr>
-          <tr><td>EGU General Assembly 2026<span class="place">Vienna, Austria</span></td><td>Mekong Delta dual-geometry InSAR; sinkhole formation in flooded mines</td><td>2 posters, co-author</td></tr>
-          <tr><td>First International Land Subsidence Symposium<span class="place">Quezon City, Philippines</span></td><td>Coupled multi-depth modelling of land subsidence in delta systems; InSAR-derived long-term land movement in the Mekong Delta</td><td>2 posters</td></tr>
-          <tr><td>Taiwan International Symposium on Land Subsidence<span class="place">Taipei, Taiwan</span></td><td>Integrating shallow and intermediate compaction processes: a coupled framework for deltaic land subsidence</td><td>Poster</td></tr>
+          <tr><td class="d">Upcoming</td><td>IAEG 2026<span class="place">Delft, Netherlands</span></td><td>Results of the coupled model for the Mekong Delta</td><td>Poster, submitted</td></tr>
+          <tr><td class="d">30 Sep – 1 Oct</td><td>GFZ Doctoral Days 2026<span class="place">GFZ, Campus Telegrafenberg, Potsdam, Germany</span></td><td>Downscaling GRACE data for improved monitoring of groundwater-induced land subsidence in delta regions</td><td>60-second pitch, poster</td></tr>
+          <tr><td class="d">14–18 Sep</td><td>IAH 2026 World Groundwater Congress<br>53rd Congress of the International Association of Hydrogeologists<span class="place">Budapest Congress Center, Hungary</span></td><td>Downscaling GRACE data for physically consistent monitoring of groundwater storage changes and associated land subsidence</td><td>Poster</td></tr>
+          <tr><td class="d">9–14 Aug</td><td>IGARSS 2026<span class="place">Washington, D.C., USA</span></td><td>Estimating aquifer depletion and recovery in small-scale anthropogenically stressed areas applying GRACE</td><td>Paper</td></tr>
+          <tr><td class="d">3–8 May</td><td>EGU General Assembly 2026<span class="place">Vienna, Austria</span></td><td>Mekong Delta dual-geometry InSAR; sinkhole formation in flooded mines</td><td>2 posters, co-author</td></tr>
+          <tr><td class="d">20–23 Apr</td><td>First International Land Subsidence Symposium (FILSSP)<span class="place">Quezon City, Philippines</span></td><td>Coupled multi-depth modeling of land subsidence in delta systems; InSAR-derived long-term land movement in the Mekong Delta</td><td>2 posters</td></tr>
+          <tr><td class="d">13–17 Apr</td><td>Taiwan International Symposium on Land Subsidence (TWSUB 2026)<span class="place">Taipei, Taiwan</span></td><td>Integrating shallow and intermediate compaction processes: a coupled framework for deltaic subsidence</td><td>Poster</td></tr>
         </tbody>
       </table>
     </div>
 
-    <h3 class="conf-year">2024–2025</h3>
+    <h3 class="conf-year">2025</h3>
     <div class="tablebox">
       <table class="conf">
-        <thead><tr><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
+        <thead><tr><th>Dates</th><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
         <tbody>
-          <tr><td>IPGC 2025<span class="place">Zaragoza, Spain</span></td><td>Integrated remote sensing monitoring of land surface instability in post-mining regions<span class="award">Poster award</span></td><td>Poster</td></tr>
-          <tr><td>Living Planet Symposium 2025<span class="place">Vienna, Austria</span></td><td>Detecting sinkholes and land surface movements in post-mining regions</td><td>Poster</td></tr>
-          <tr><td>Viet-Pol 2025<span class="place">Hanoi, Vietnam</span></td><td>Challenges in estimating long-term InSAR-derived land subsidence in the Mekong Delta</td><td>Paper, co-author</td></tr>
-          <tr><td>XVIII Dni Miernictwa<span class="place">Ustroń, Poland</span></td><td>Detection of sinkholes and surface movements using remote sensing data</td><td>Talk</td></tr>
-          <tr><td>Dokonania Naukowe Doktorantów<span class="place">Kraków, Poland (online)</span></td><td>Impact of digital elevation model accuracy on InSAR-retrieved land displacement<span class="award">Poster award</span></td><td>Poster</td></tr>
-          <tr><td>AGU Annual Meeting<span class="place">Washington, D.C., USA</span></td><td>3MAP: monitoring, modelling and mitigation of land subsidence in delta areas</td><td>Poster, co-author</td></tr>
+          <tr><td class="d">5–7 Nov</td><td>5th International Professional Geology Conference (IPGC)<span class="place">Zaragoza, Spain</span></td><td>Integrated remote sensing monitoring of land surface instability in post-mining regions of critical raw materials in southern Poland<span class="award">Poster award</span></td><td>Poster</td></tr>
+          <tr><td class="d">22–24 Oct</td><td>XVIII Dni Miernictwa Górniczego i Ochrony Terenów Górniczych<span class="place">Ustroń, Poland</span></td><td>Detection of sinkholes and land surface displacement in closed mining areas using integrated remote sensing data</td><td>Talk</td></tr>
+          <tr><td class="d">21–24 Oct</td><td>Viet-Pol 2025, 8th International Conference on Scientific and Research Cooperation between Vietnam and Poland<span class="place">Hanoi, Vietnam</span></td><td>Challenges in estimating long-term InSAR-derived land subsidence in the Mekong Delta, Vietnam</td><td>Paper, co-author</td></tr>
+          <tr><td class="d">22–27 Jun</td><td>Living Planet Symposium 2025<span class="place">Vienna, Austria</span></td><td>Detecting sinkholes and land surface movements in post-mining regions utilizing multi-source remote sensing data</td><td>Poster</td></tr>
+          <tr><td class="d">23–24 May</td><td>Dokonania Naukowe Doktorantów XIII<span class="place">Online</span></td><td>Impact of digital elevation model accuracy on InSAR-retrieved land displacement<span class="award">Award for scientific discussion</span></td><td>Poster</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="conf-year">2024</h3>
+    <div class="tablebox">
+      <table class="conf">
+        <thead><tr><th>Dates</th><th>Event</th><th>Contribution</th><th>Form</th></tr></thead>
+        <tbody>
+          <tr><td class="d">9–13 Dec</td><td>AGU Annual Meeting 2024<span class="place">Washington, D.C., USA</span></td><td>3MAP: monitoring, modelling and mitigation of land subsidence in delta areas</td><td>Poster, co-author</td></tr>
         </tbody>
       </table>
     </div>
